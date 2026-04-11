@@ -205,13 +205,13 @@ function fetchTasks() {
     .catch(err => console.log(err));
 }
 
-// 📊 Update stats
+// Update stats
 function updateStats() {
   totalTasks.textContent = tasks.length;
   completedTasks.textContent = tasks.filter(task => task.completed).length;
   pendingTasks.textContent = tasks.filter(task => !task.completed).length;
 }
-// ✅ TOGGLE
+// TOGGLE
 function toggleTask(id, completed) {
   fetch(`http://localhost:5000/todos/${id}`, {
     method: "PUT",
@@ -223,7 +223,7 @@ function toggleTask(id, completed) {
   .then(() => fetchTasks());
 }
 
-// ✅ DELETE
+// DELETE
 function deleteTask(id) {
   fetch(`http://localhost:5000/todos/${id}`, {
     method: "DELETE"
@@ -231,7 +231,7 @@ function deleteTask(id) {
   .then(() => fetchTasks());
 }
 
-// ✅ EDIT
+// EDIT
 function editTask(id, oldText) {
   const newText = prompt("Edit your task:", oldText);
 
@@ -246,7 +246,7 @@ function editTask(id, oldText) {
     .then(() => fetchTasks());
   }
 }
-// 🎨 Render tasks
+//  Render tasks
 function renderTasks() {
   taskList.innerHTML = "";
 
@@ -302,7 +302,7 @@ function renderTasks() {
   updateStats();
 }
 
-// ➕ ADD task (backend me save)
+//  ADD task (backend me save)
 function addTask() {
   const text = taskInput.value.trim();
   const date = taskDate.value;
@@ -321,14 +321,14 @@ function addTask() {
   })
   .then(res => res.json())
   .then(() => {
-    fetchTasks(); // 🔥 refresh list
+    fetchTasks(); //  refresh list
   });
 
   taskInput.value = "";
   taskDate.value = "";
 }
 
-// 🎛 Filters
+// Filters
 filterButtons.forEach(button => {
   button.addEventListener("click", () => {
     filterButtons.forEach(btn => btn.classList.remove("active"));
@@ -338,7 +338,7 @@ filterButtons.forEach(button => {
   });
 });
 
-// 🎯 Event listeners
+// Event listeners
 addTaskBtn.addEventListener("click", addTask);
 
 taskInput.addEventListener("keypress", function (e) {
@@ -347,5 +347,5 @@ taskInput.addEventListener("keypress", function (e) {
   }
 });
 
-// 🚀 Initial load
+//  Initial load
 fetchTasks();
