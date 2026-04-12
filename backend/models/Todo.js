@@ -1,8 +1,10 @@
 const mongoose = require("mongoose");
+const user = require("./user");
 
 const todoSchema = new mongoose.Schema({
   text: String,
-  completed: Boolean
+  completed: Boolean,
+  userId: String
 });
 
 module.exports = mongoose.model("Todo", todoSchema);

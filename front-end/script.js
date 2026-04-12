@@ -196,9 +196,14 @@ let currentFilter = "all";
 
 // 🔗 FETCH tasks from backend
 function fetchTasks() {
-  fetch("http://localhost:5000/todos")
+  const userId = localStorage.getItem("userId");
+
+ console.log("USER ID:", userId); // 👈 add this
+
+  fetch(`http://localhost:5000/todos/${userId}`)
     .then(res => res.json())
     .then(data => {
+    console.log("TASKS:", data);
       tasks = data;
       renderTasks();
     })
@@ -306,7 +311,7 @@ function renderTasks() {
 function addTask() {
   const text = taskInput.value.trim();
   const date = taskDate.value;
-
+  const userId = localStorage.getItem("userId");
   if (text === "") {
     alert("Please enter a task!");
     return;
@@ -317,7 +322,7 @@ function addTask() {
     headers: {
       "Content-Type": "application/json"
     },
-    body: JSON.stringify({ text, date })
+    body: JSON.stringify({ text, date, userId}) // userId add
   })
   .then(res => res.json())
   .then(() => {
@@ -338,6 +343,32 @@ filterButtons.forEach(button => {
   });
 });
 
+// DELETE all tasks
+function deleteAll() {
+  const confirmDelete = confirm("Are you sure you want to delete all tasks?");
+  
+  if (confirmDelete) {
+    fetch("http://localhost:5000/todos", {
+      method: "DELETE"
+    })
+    .then(() => fetchTasks()) //  refresh list
+    .catch(err => console.log(err));
+    console.log("delete all clicked"); // 👈 add this
+
+  }
+}
+
+// Clear completed tasks
+function clearCompleted() {
+  console.log("clear completed clicked");
+  fetch("http://localhost:5000/todos/completed", {
+    method: "DELETE"
+  })
+  .then(() => fetchTasks())
+  .catch(err => console.log(err));
+}
+
+
 // Event listeners
 addTaskBtn.addEventListener("click", addTask);
 
@@ -346,6 +377,11 @@ taskInput.addEventListener("keypress", function (e) {
     addTask();
   }
 });
+
+
+deleteAllBtn.addEventListener("click", deleteAll);
+clearCompletedBtn.addEventListener("click", clearCompleted);
+
 
 //  Initial load
 fetchTasks();
