@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -12,7 +12,7 @@
     <div class="todo-app">
       <h1>📝 TaskMaster</h1>
       <p class="subtitle">Manage your daily tasks easily</p>
-
+<div class="task-section">
       <div class="input-section">
         <input type="text" id="taskInput" placeholder="Enter your task..." />
         <input type="date" id="taskDate" />
@@ -37,10 +37,110 @@
         <button id="clearCompletedBtn">Clear Completed</button>
         <button id="deleteAllBtn">Delete All</button>
       </div>
+
+
+</div>
+
+     <div class="chart-side"> 
+      <div class="chart-container">
+        <h3>📊 Task Overview</h3>
+        <canvas id="taskChart"></canvas>
+      </div>
+    </div>
+  
+
+      <div class="chart-container">
+        <h3>📈 Weekly Productivity</h3>
+        <canvas id="weeklyChart"></canvas>
+      </div>
+
     </div>
   </div>
 
-  <script src="script.js"></script>
   
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="script.js"></script>
+  
+</body>
+</html> -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TaskMaster - To-Do App</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+  <div class="container">
+
+    <div class="todo-app">
+
+      <h1>📝 TaskMaster</h1>
+      <p class="subtitle">Manage your daily tasks easily</p>
+
+      <!-- TOP SECTION: TODO + DOUGHNUT -->
+      <div class="top-section">
+
+        <!-- LEFT: TODO -->
+        <div class="tasks-section">
+
+          <div class="input-section">
+            <input type="text" id="taskInput" placeholder="Enter your task..." />
+            <input type="date" id="taskDate" />
+            <button id="addTaskBtn">Add Task</button>
+          </div>
+
+          <div class="filters">
+            <button class="filter-btn active" data-filter="all">All</button>
+            <button class="filter-btn" data-filter="pending">Pending</button>
+            <button class="filter-btn" data-filter="completed">Completed</button>
+          </div>
+
+          <div class="stats">
+            <span>Total: <strong id="totalTasks">0</strong></span>
+            <span>Completed: <strong id="completedTasks">0</strong></span>
+            <span>Pending: <strong id="pendingTasks">0</strong></span>
+          </div>
+
+          <ul id="taskList"></ul>
+
+          <div class="bottom-actions">
+            <button id="clearCompletedBtn">Clear Completed</button>
+            <button id="deleteAllBtn">Delete All</button>
+          </div>
+
+        </div>
+
+        <!-- RIGHT: DOUGHNUT GRAPH -->
+        <div class="chart-side">
+
+          <div class="chart-container">
+            <h3>📊 Task Overview</h3>
+            <canvas id="taskChart"></canvas>
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- BOTTOM: LINE GRAPH -->
+      <div class="bottom-chart">
+
+        <div class="chart-container full-width">
+          <h3>📈 Weekly Productivity</h3>
+          <canvas id="weeklyChart"></canvas>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="script.js"></script>
+
 </body>
 </html>

@@ -193,6 +193,8 @@ const pendingTasks = document.getElementById("pendingTasks");
 
 let tasks = [];
 let currentFilter = "all";
+let chart;
+let weeklyChart;
 
 // 🔗 FETCH tasks from backend
 function fetchTasks() {
@@ -212,9 +214,15 @@ function fetchTasks() {
 
 // Update stats
 function updateStats() {
+  const completed = tasks.filter(task => task.completed).length;
+  const pending = tasks.filter(task => !task.completed).length;
+
   totalTasks.textContent = tasks.length;
-  completedTasks.textContent = tasks.filter(task => task.completed).length;
-  pendingTasks.textContent = tasks.filter(task => !task.completed).length;
+  completedTasks.textContent = completed;
+  pendingTasks.textContent = pending;
+
+  renderChart(completed, pending); // 👈 NEW
+  renderWeeklyChart();            // 👈 NEW
 }
 // TOGGLE
 function toggleTask(id, completed) {
@@ -385,3 +393,88 @@ clearCompletedBtn.addEventListener("click", clearCompleted);
 
 //  Initial load
 fetchTasks();
+
+function renderChart(completed, pending) {
+  const ctx = document.getElementById("taskChart").getContext("2d");
+
+  // agar chart already exist karta hai toh destroy
+  if (chart) {
+    chart.destroy();
+  }
+
+  chart = new Chart(ctx, {
+    type: "doughnut",
+    data: {
+      labels: ["Completed", "Pending"],
+      datasets: [{
+        data: [completed, pending],
+        backgroundColor: ["#4CAF50", "#FF5252"]
+      }]
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: {
+          position: "bottom"
+        }
+      }
+    }
+  });
+}
+ //data logic of line graph
+function getLast7DaysData() {
+  const last7Days = [];
+  const counts = [];
+
+  for (let i = 6; i >= 0; i--) {
+    const d = new Date();
+    d.setDate(d.getDate() - i);
+
+    const dateStr = d.toISOString().split("T")[0];
+
+   const dayName = d.toLocaleDateString("en-US", { weekday: "short" });
+  last7Days.push(dayName);
+
+    const count = tasks.filter(task => 
+      task.completed && task.date === dateStr
+    ).length;
+
+    counts.push(count);
+  }
+
+  return { last7Days, counts };
+}
+ 
+//line graph function
+function renderWeeklyChart() {
+  const ctx = document.getElementById("weeklyChart").getContext("2d");
+
+  const { last7Days, counts } = getLast7DaysData();
+
+  if (weeklyChart) {
+    weeklyChart.destroy();
+  }
+
+  weeklyChart = new Chart(ctx, {
+    type: "line",
+    data: {
+      labels: last7Days,
+      datasets: [{
+        label: "Tasks Completed",
+        data: counts,
+        borderColor: "#667eea",
+        backgroundColor: "rgba(102,126,234,0.2)",
+        tension: 0.3,
+        fill: true
+      }]
+    },
+    options: {
+      responsive: true,
+      scales: {
+        y: {
+          beginAtZero: true
+        }
+      }
+    }
+  });
+}

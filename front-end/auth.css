@@ -1,0 +1,75 @@
+body {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  /* 👇 your image + dark overlay */
+  background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)),
+              url("bgimage.png") no-repeat center/cover;
+}
+
+/* Glassy card */
+.auth-box {
+  background: rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(15px);
+  border-radius: 18px;
+  padding: 35px;
+  width: 320px;
+  color: #fff;
+  text-align: center;
+
+  box-shadow: 0 10px 40px rgba(0,0,0,0.4);
+}
+
+/* Heading */
+.auth-box h2 {
+  margin-bottom: 20px;
+  font-weight: 600;
+}
+
+/* Inputs */
+.auth-box input {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 12px;
+  border-radius: 10px;
+  border: none;
+  outline: none;
+
+  background: rgba(255,255,255,0.2);
+  color: white;
+}
+
+.auth-box input::placeholder {
+  color: #ddd;
+}
+
+/* Button */
+.auth-box button {
+  width: 100%;
+  padding: 12px;
+  border-radius: 10px;
+  border: none;
+  background: #667eea;
+  color: white;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.auth-box button:hover {
+  transform: translateY(-2px);
+  background: #5a6be0;
+}
+
+/* Links */
+.auth-box a {
+  color: #ddd;
+  text-decoration: none;
+}
+
+.auth-box a:hover {
+  text-decoration: underline;
+}
